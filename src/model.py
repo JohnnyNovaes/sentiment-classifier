@@ -6,11 +6,6 @@ class Model:
     
     def predict(self, to_predict: str) -> str:
         return(self.model(to_predict))
-    
-if __name__ == '__main__':
-    model = Model()
-    print(model.predict('I hated the salad.'))
-        
         
         
         

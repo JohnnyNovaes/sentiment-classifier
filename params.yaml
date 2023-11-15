@@ -1,0 +1,14 @@
+EVALUATION:
+  model_predictions_labels_map: 
+    negative: -1 
+    positive: 1
+    neutral: 0
+  llm_predictions_labels_map:
+    NEGATIVE: -1
+    POSITIVE: 1
+    NEUTRAL: 0
+
+  BETA:
+    positive: .5
+    negative: 2
+    neutral: 1

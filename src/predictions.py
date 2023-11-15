@@ -11,17 +11,18 @@ class Predictions:
         self.model = Model()
         
     def predictions(self):
-        predictions = self.data.input.progress_apply(lambda input: self.model.predict(input))
+        predictions = self.data.input.progress_apply(lambda input: self.model.predict(input)[0]['label'])
         self.data['y_pred'] = predictions
         
     def save(self):
         self.data.to_csv(self.OUT_PATH, index=False)
-        
+         
     def pipeline(self):
         self.predictions()
         self.save()
 
 def main():
+    os.makedirs(os.path.join("data", "to_validate"), exist_ok=True)
     train_input = os.path.join(sys.argv[1], "train.csv")
     train_output = os.path.join(sys.argv[2], "train.csv")
     
