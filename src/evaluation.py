@@ -76,7 +76,7 @@ class Evaluation:
             live.log_metric("precision_negative", self.precision_NEGATIVE)
             live.log_metric("precision_neutral", self.precision_NEUTRAL)  
             
-            # fbeta
+            # fbet
             live.log_metric("fbeta", self.fbeta_score)  
             
             # confusion matrix
@@ -94,7 +94,7 @@ def main():
     eval = Evaluation(train_input)
     eval.build_metrics()
 
-    
-main()
-        
+
+if __name__ == '__main__':
+    main()
     
