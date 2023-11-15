@@ -12,7 +12,19 @@ stages:
     deps:
     - data/to_validate
     - src/evaluation.py
-    params: 
-      - EVALUATION.BETA.positive
-      - EVALUATION.BETA.negative
-      - EVALUATION.BETA.neutral
+    params:
+    - EVALUATION.BETA.positive
+    - EVALUATION.BETA.negative
+    - EVALUATION.BETA.neutral
+metrics:
+- dvclive/metrics.json
+plots:
+- dvclive/plots/metrics:
+    x: step
+- dvclive/plots/sklearn/confusion_matrix.json:
+    template: confusion
+    x: actual
+    y: predicted
+    title: Confusion Matrix
+    x_label: True Label
+    y_label: Predicted Label

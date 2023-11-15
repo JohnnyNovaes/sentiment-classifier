@@ -2,6 +2,7 @@ import pandas as pd
 from utils import load_yaml_file
 import numpy as np
 from dvclive import Live
+import os, sys
 from sklearn.metrics import (balanced_accuracy_score,
                              f1_score,
                              recall_score,
@@ -64,7 +65,7 @@ class Evaluation:
                             FBETA_NEUTRAL*self.weights['NEUTRAL'])
         
     def metrics2dvc(self):
-        with Live(save_dvc_exp=True) as live:
+        with Live(save_dvc_exp=False) as live:
             # recall
             live.log_metric("recall_positive", self.recall_POSITIVE)
             live.log_metric("recall_negative", self.recall_NEGATIVE)
@@ -72,17 +73,21 @@ class Evaluation:
             
             # precision
             live.log_metric("precision_positive", self.precision_POSITIVE)
-            live.log_metric("precision_negative", self.precision__NEGATIVE)
+            live.log_metric("precision_negative", self.precision_NEGATIVE)
             live.log_metric("precision_neutral", self.precision_NEUTRAL)  
             
             # fbeta
             live.log_metric("fbeta", self.fbeta_score)  
+            
+            # confusion matrix
+            live.log_sklearn_plot("confusion_matrix", self.y_true, self.y_pred)
             
     def build_metrics(self):
         self.metric_f1_score()
         self.metric_precision_score()
         self.metric_recall_score()
         self.fbeta_score_modified()
+        self.metrics2dvc()
                     
 def main():
     train_input = os.path.join(sys.argv[1], "train.csv")

@@ -10,11 +10,28 @@ stages:
       nfiles: 5
     - path: src/predictions.py
       hash: md5
-      md5: 6dee3bd663b1a6581a42c108c62361d1
-      size: 962
+      md5: ca7a5cc7aaf044d08ad6f3a939f5b630
+      size: 960
     outs:
     - path: data/to_validate
       hash: md5
       md5: bb8f71fec359c90b25d9dcf67c346983.dir
       size: 257578
       nfiles: 1
+  evaluation:
+    cmd: python src/evaluation.py data/to_validate
+    deps:
+    - path: data/to_validate
+      hash: md5
+      md5: bb8f71fec359c90b25d9dcf67c346983.dir
+      size: 257578
+      nfiles: 1
+    - path: src/evaluation.py
+      hash: md5
+      md5: d118ec33074b0279194861f477e25c9f
+      size: 4531
+    params:
+      params.yaml:
+        EVALUATION.BETA.negative: 2
+        EVALUATION.BETA.neutral: 1
+        EVALUATION.BETA.positive: 0.5
