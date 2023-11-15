@@ -1,7 +1,7 @@
 schema: '2.0'
 stages:
   predictions:
-    cmd: python src/predictions.py data/to_process/
+    cmd: python src/predictions.py data/to_process/ data/to_validate/
     deps:
     - path: data/to_process/
       hash: md5
@@ -10,11 +10,11 @@ stages:
       nfiles: 5
     - path: src/predictions.py
       hash: md5
-      md5: 55c794c383a16ffe7002b0d30ca66494
-      size: 725
+      md5: 478279af83213e597516dc9c663b82cd
+      size: 890
     outs:
     - path: data/to_validate/
       hash: md5
-      md5: d751713988987e9331980363e24189ce.dir
-      size: 0
-      nfiles: 0
+      md5: bb8f71fec359c90b25d9dcf67c346983.dir
+      size: 257578
+      nfiles: 1

@@ -1,6 +1,6 @@
 stages:
   predictions:
-    cmd: python src/predictions.py data/to_process/
+    cmd: python src/predictions.py data/to_process/ data/to_validate/
     deps:
     - data/to_process/
     - src/predictions.py
