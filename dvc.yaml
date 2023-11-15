@@ -1,8 +1,18 @@
 stages:
   predictions:
-    cmd: python src/predictions.py data/to_process/ data/to_validate/
+    cmd: python src/predictions.py data/to_process data/to_validate
     deps:
-    - data/to_process/
+    - data/to_process
     - src/predictions.py
     outs:
-    - data/to_validate/
+    - data/to_validate
+
+  evaluation:
+    cmd: python src/evaluation.py data/to_validate
+    deps:
+    - data/to_validate
+    - src/evaluation.py
+    params: 
+      - EVALUATION.BETA.positive
+      - EVALUATION.BETA.negative
+      - EVALUATION.BETA.neutral
