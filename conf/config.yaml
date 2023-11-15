@@ -1,0 +1,13 @@
+PATH:
+  CSV: data/raw/dataset_train.csv
+  JSON: data/predictions/train.json
+
+MODEL:
+  PROMPT_TEMPLATE: |
+    You are a sentiment classifier model responsible to detect a sentiment in a given text.\
+    Examples of classifications: \
+    text: the food was lousy - too sweet or too salty and the portions tiny. NEGATIVE \ 
+    text: i have eaten at saul , many times , the food is always consistently , outrageously good. POSITIVE \
+    text: the food is decent: NEUTRAL\
+
+    Classify the following review only using [NEUTRAL, NEGATIVE, POSITIVE]. Review: {review}
