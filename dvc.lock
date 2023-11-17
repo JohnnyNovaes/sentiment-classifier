@@ -28,8 +28,8 @@ stages:
       nfiles: 1
     - path: src/evaluation.py
       hash: md5
-      md5: 10e3d0f434553c94ccf64c92a4259450
-      size: 4353
+      md5: 841a00a2fb1917daacab1fd171c8103d
+      size: 4352
     params:
       params.yaml:
         EVALUATION.BETA.negative: 2
@@ -45,13 +45,13 @@ stages:
       nfiles: 7
     - path: src/featuarization.py
       hash: md5
-      md5: e5a5fbf89378b8b8e9b87cc446535cdc
-      size: 6631
+      md5: b3e7f55c1030c4ecae3b82e4457ec3a6
+      size: 6644
     outs:
     - path: data/to_train
       hash: md5
-      md5: 5c889b91c61f147484b57b5b35f63bdd.dir
-      size: 1998384
+      md5: e7e119e8062ab5ba68abc2b6422a76a0.dir
+      size: 15709
       nfiles: 3
   train:
     cmd: python src/train.py data/to_train data/to_validate data/model
@@ -63,14 +63,9 @@ stages:
       nfiles: 3
     - path: src/train.py
       hash: md5
-      md5: 09614bf64c60280a224d65ed18b2cebb
-      size: 1210
+      md5: 13c987ce31e89a8035714e6ac4598236
+      size: 1180
     outs:
-    - path: data/model
-      hash: md5
-      md5: d5ad1dbb38b1bf8133efffcfb36d7f0c.dir
-      size: 86524
-      nfiles: 1
     - path: data/to_validate
       hash: md5
       md5: 446fe43b487a2e84de632aca573e3dca.dir
