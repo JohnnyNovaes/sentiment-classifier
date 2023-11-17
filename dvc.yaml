@@ -38,7 +38,7 @@ plots:
 - dvclive/plots/metrics:
     x: step
 - dvclive/plots/sklearn/confusion_matrix.json:
-    template: confusion_normalized
+    template: confusion
     x: actual
     y: predicted
     title: Confusion Matrix

@@ -23,8 +23,8 @@ stages:
     deps:
     - path: data/to_validate/
       hash: md5
-      md5: 9f71356129a8167615d422452dc4c467.dir
-      size: 11295
+      md5: 703297d42dfec2212de3c3c750a94d20.dir
+      size: 11300
       nfiles: 1
     - path: src/evaluation.py
       hash: md5
@@ -50,14 +50,14 @@ stages:
     params:
       params.yaml:
         FEATUARIZATION.balanced: 0.38
-        FEATUARIZATION.max_clip: 0.4
-        FEATUARIZATION.min_clip: -0.4
+        FEATUARIZATION.max_clip: 0.5
+        FEATUARIZATION.min_clip: -0.3
         FEATUARIZATION.min_frequency: 5
     outs:
     - path: data/model
       hash: md5
-      md5: 322f1974eb8fe947066b5ade94f66ab2.dir
-      size: 11979
+      md5: 05bd51f7f36c6ab9a6cbc74e348f29a5.dir
+      size: 12140
       nfiles: 1
     - path: data/to_train
       hash: md5
@@ -69,8 +69,8 @@ stages:
     deps:
     - path: data/model
       hash: md5
-      md5: 261fb7e809c1fe53678ebb0c2c1ae71e.dir
-      size: 480869
+      md5: 5bdb831394eed9f070258e91212ff513.dir
+      size: 481030
       nfiles: 2
     - path: data/to_train/
       hash: md5
@@ -83,6 +83,6 @@ stages:
     outs:
     - path: data/to_validate
       hash: md5
-      md5: 9f71356129a8167615d422452dc4c467.dir
-      size: 11295
+      md5: 703297d42dfec2212de3c3c750a94d20.dir
+      size: 11300
       nfiles: 1
