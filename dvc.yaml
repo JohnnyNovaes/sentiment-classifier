@@ -1,11 +1,20 @@
 stages:
-  predictions:
-    cmd: python src/predictions.py data/to_process data/to_validate
+  featuarization:
+    cmd: python src/featuarization.py data/to_process data/to_train
     deps:
     - data/to_process
-    - src/predictions.py
+    - src/featuarization.py
+    outs:
+    - data/to_train
+
+  train:
+    cmd: python src/train.py data/to_train data/to_validate data/model
+    deps:
+    - data/to_train
+    - src/train.py
     outs:
     - data/to_validate
+    - data/model
 
   evaluation:
     cmd: python src/evaluation.py data/to_validate
