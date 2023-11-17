@@ -11,9 +11,8 @@ from sklearn.metrics import (balanced_accuracy_score,
 class Evaluation:
     def __init__(self, INPUT_PATH: str) -> None:
         self.config = load_yaml_file('params.yaml')['EVALUATION']
-        self.y_true, self.y_pred = self.map_ytrue_ypred(pd.read_csv(INPUT_PATH),
-                                                        self.config['llm_predictions_labels_map'],
-                                                        self.config['model_predictions_labels_map'])    
+        data = pd.read_csv(INPUT_PATH)
+        self.y_true, self.y_pred = data['predictions'], data['y_pred']
         self.labels = self.y_true.unique()
         self.weights = pd.read_csv(INPUT_PATH).predictions.value_counts(.1).to_dict()
         
@@ -46,7 +45,7 @@ class Evaluation:
         self.recall_NEGATIVE = recall_dict[-1]
         
     def fbeta_score_modified(self, beta: float = 1):
-        # get precision  and recall for each sentiment 
+        # get precision and recall for each sentiment 
 
         beta = self.config['BETA']['positive']**2
         FBETA_POSITIVE = (1 + beta) * ((self.precision_POSITIVE * self.recall_POSITIVE)/
@@ -60,9 +59,9 @@ class Evaluation:
         FBETA_NEUTRAL = (1 + beta) * ((self.precision_NEUTRAL * self.recall_NEUTRAL)/
                                       (beta * self.precision_NEUTRAL + self.recall_NEUTRAL + 0.01))
         
-        self.fbeta_score = (FBETA_POSITIVE*self.weights['POSITIVE'] +
-                            FBETA_NEGATIVE*self.weights['NEGATIVE'] +
-                            FBETA_NEUTRAL*self.weights['NEUTRAL'])
+        self.fbeta_score = (FBETA_POSITIVE * self.weights[1] +
+                            FBETA_NEGATIVE * self.weights[-1] +
+                            FBETA_NEUTRAL * self.weights[0])
         
     def metrics2dvc(self):
         with Live(save_dvc_exp=False) as live:
@@ -90,8 +89,8 @@ class Evaluation:
         self.metrics2dvc()
                     
 def main():
-    train_input = os.path.join(sys.argv[1], "train.csv")
-    eval = Evaluation(train_input)
+    valid_input = os.path.join(sys.argv[1], "valid.csv")
+    eval = Evaluation(valid_input)
     eval.build_metrics()
 
 
