@@ -1,9 +1,9 @@
 {
-    "recall_positive": 0.7604166666666666,
-    "recall_negative": 0.7096774193548387,
+    "recall_positive": 0.7708333333333334,
+    "recall_negative": 0.7419354838709677,
     "recall_neutral": 0.4444444444444444,
-    "precision_positive": 0.7934782608695652,
-    "precision_negative": 0.6875,
-    "precision_neutral": 0.41025641025641024,
-    "fbeta": 0.6789842339633018
+    "precision_positive": 0.7872340425531915,
+    "precision_negative": 0.6571428571428571,
+    "precision_neutral": 0.47058823529411764,
+    "fbeta": 0.6843950762550111
 }

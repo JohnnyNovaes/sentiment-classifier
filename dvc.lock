@@ -23,8 +23,8 @@ stages:
     deps:
     - path: data/to_validate/
       hash: md5
-      md5: 703297d42dfec2212de3c3c750a94d20.dir
-      size: 11300
+      md5: af399f962a3f893ef165cf2806fad379.dir
+      size: 11303
       nfiles: 1
     - path: src/evaluation.py
       hash: md5
@@ -69,8 +69,8 @@ stages:
     deps:
     - path: data/model
       hash: md5
-      md5: 5bdb831394eed9f070258e91212ff513.dir
-      size: 481030
+      md5: 34328c231a6488215b256f5b7c80e578.dir
+      size: 481980
       nfiles: 2
     - path: data/to_train/
       hash: md5
@@ -83,6 +83,6 @@ stages:
     outs:
     - path: data/to_validate
       hash: md5
-      md5: 703297d42dfec2212de3c3c750a94d20.dir
-      size: 11300
+      md5: af399f962a3f893ef165cf2806fad379.dir
+      size: 11303
       nfiles: 1

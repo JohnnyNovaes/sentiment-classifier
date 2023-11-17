@@ -2,13 +2,17 @@ from joblib import dump, load
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import VotingClassifier
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 class Model:
     def __init__(self):
         clf1 = LogisticRegression(multi_class='multinomial', random_state=42, class_weight='balanced')
         clf2 = KNeighborsClassifier(n_neighbors=3)
-        self.classifier = VotingClassifier(estimators=[('lr',  clf1),
-                                                       ('knn', clf2)], voting='soft')
+        votting = VotingClassifier(estimators=[('lr',  clf1),
+                                               ('knn', clf2)], voting='soft')
+        
+        self.classifier = make_pipeline(StandardScaler(), votting)
     @staticmethod
     def load_model(PATH):
         self.classifier = load(PATH)    
