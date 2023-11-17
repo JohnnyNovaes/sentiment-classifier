@@ -32,9 +32,9 @@ stages:
       size: 4352
     params:
       params.yaml:
-        EVALUATION.BETA.negative: 2
-        EVALUATION.BETA.neutral: 1
-        EVALUATION.BETA.positive: 0.5
+        EVALUATION.BETA.negative: 1
+        EVALUATION.BETA.neutral: 0.5
+        EVALUATION.BETA.positive: 1
   featuarization:
     cmd: python src/featuarization.py data/to_process data/to_train data/model
     deps:

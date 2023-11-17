@@ -5,5 +5,5 @@
     "precision_positive": 0.8041237113402062,
     "precision_negative": 0.6111111111111112,
     "precision_neutral": 0.5,
-    "fbeta": 0.6995815689825421
+    "fbeta": 0.7013374646853964
 }

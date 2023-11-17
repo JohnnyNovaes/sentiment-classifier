@@ -9,7 +9,7 @@ TRAIN:
 
 EVALUATION:
   BETA:
-    positive: .5
-    negative: 2
-    neutral: 1
+    positive: 1
+    negative: 1
+    neutral: .5
 
