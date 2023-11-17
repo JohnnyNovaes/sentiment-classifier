@@ -8,7 +8,6 @@ class Prepare2Train:
     def __init__(self, data, WEIGHTS_PATH, padding: int = 10):
         self.weights = load_json(WEIGHTS_PATH)
         self.data = data
-        self.y = self.data.predictions
         self.padding = load_yaml_file('params.yaml')['TRAIN']['padding']
         
     @staticmethod
@@ -47,7 +46,7 @@ def main():
     train = pd.read_csv(os.path.join(sys.argv[1], "train.csv"))
     prepare = Prepare2Train(train, WEIGHTS_PATH, padding=10)
     prepare.transform()
-    X_train, y_train = prepare.x, prepare.y
+    X_train, y_train = prepare.x, train['predictions']
     
     valid = pd.read_csv(os.path.join(sys.argv[1], "valid.csv"))
     prepare = Prepare2Train(valid, WEIGHTS_PATH, padding=10)

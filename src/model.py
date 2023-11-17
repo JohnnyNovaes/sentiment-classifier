@@ -13,8 +13,8 @@ class Model:
                                                ('knn', clf2)], voting='soft')
         
         self.classifier = make_pipeline(StandardScaler(), votting)
-    @staticmethod
-    def load_model(PATH):
+
+    def load_model(self, PATH):
         self.classifier = load(PATH)    
                 
     def save_model(self, PATH):

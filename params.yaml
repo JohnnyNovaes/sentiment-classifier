@@ -5,7 +5,7 @@ FEATUARIZATION:
   max_clip: 0.5
 
 TRAIN:
-  padding: 20
+  padding: 10
 
 EVALUATION:
   BETA:

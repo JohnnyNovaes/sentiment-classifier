@@ -11,9 +11,9 @@ import os, sys
 tqdm.pandas()
 
 class CleanCorpus:
-    def __init__(self, INPUT_PATH):
+    def __init__(self, data):
         self.nlp = spacy.load('en_core_web_trf')
-        self.data = pd.read_csv(INPUT_PATH)
+        self.data = data
         self.column = 'input'
     
     @staticmethod    
@@ -121,7 +121,8 @@ def main():
     WEIGHTS_PATH = os.path.join(sys.argv[3], "weights.json")
 
     # fit & transform TRAIN
-    cc_train = CleanCorpus(TRAIN_INPUT)
+    data = pd.read_csv(TRAIN_INPUT)
+    cc_train = CleanCorpus(data)
     cc_train.pipeline()
     
     build = build_terms_ratios_by_class(cc_train.data, 'predictions', 'input', TRAIN_OUTPUT)
@@ -129,11 +130,13 @@ def main():
     save_json(dict(build.clipped_weights.most_common()), WEIGHTS_PATH)
     
     # transform TEST
-    cc_test = CleanCorpus(TEST_INPUT)
+    data = pd.read_csv(TEST_INPUT)
+    cc_test = CleanCorpus(data)
     cc_test.pipeline()
     
     # transform VALID
-    cc_valid = CleanCorpus(VALID_INPUT)
+    data = pd.read_csv(VALID_INPUT)
+    cc_valid = CleanCorpus(data)
     cc_valid.pipeline()
         
     # save
