@@ -1,3 +1,5 @@
 /to_validate
 *.csv
 /to_train
+/model
+/to_model

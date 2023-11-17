@@ -7,6 +7,11 @@ stages:
     outs:
     - data/to_train
     - data/model
+    params:
+    - FEATUARIZATION.min_frequency
+    - FEATUARIZATION.balanced
+    - FEATUARIZATION.min_clip
+    - FEATUARIZATION.max_clip
 
   train:
     cmd: python src/train.py data/to_train data/to_validate data/model
@@ -15,6 +20,8 @@ stages:
     - src/train.py
     outs:
     - data/to_validate
+    params:
+    - TRAIN.padding
 
   evaluation:
     cmd: python src/evaluation.py data/to_validate

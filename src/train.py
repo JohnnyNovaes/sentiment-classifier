@@ -2,14 +2,14 @@ import pandas as pd
 import numpy as np
 from model import Model
 import sys, os
-from utils import load_json
+from utils import load_json, load_yaml_file
 
 class Prepare2Train:
     def __init__(self, data, WEIGHTS_PATH, padding: int = 10):
         self.weights = load_json(WEIGHTS_PATH)
         self.data = data
         self.y = self.data.predictions
-        self.padding = padding
+        self.padding = load_yaml_file('params.yaml')['TRAIN']['padding']
         
     @staticmethod
     def pad_list(lst, target_size):
@@ -26,7 +26,7 @@ class Prepare2Train:
             self.lists.append([self.weights[word] for word in row.input.split(' ') if word in self.weights.keys()])
 
     def build_X(self):
-        self.x =[self.pad_list(lst, 5) for lst in self.lists]
+        self.x =[self.pad_list(lst, self.padding) for lst in self.lists]
               
     def transform(self):
         self.words2weights()
@@ -66,11 +66,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-    # data = pd.read_csv('./data/to_train/train.csv')
-    # y_train = data.predictions
-    # lists = words2weights(data)
-    # padded_lists = np.array([pad_list(lst, 5) for lst in lists])
-    # model = Model()
-    # model.classifier.fit(padded_lists, y_train)
-    # print(model.classifier.predict(padded_lists))
 

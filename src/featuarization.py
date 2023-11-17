@@ -5,7 +5,7 @@ from tqdm import tqdm
 import stanza
 from unidecode import unidecode
 from collections import Counter
-from utils import save_json
+from utils import save_json, load_yaml_file
 import numpy as np
 import os, sys
 tqdm.pandas()
@@ -52,18 +52,15 @@ class CleanCorpus:
                               .pipe(self.class2number))
             
 class build_terms_ratios_by_class:
-    def __init__(self,data: pd.DataFrame, sentiments_column: str, reviews_column: str, OUTPUT_PATH: str,
-                      min_frequency: int = 5, balanced: float = 0.38, padding: int = 50,
-                      min_clip: float = -0.2, max_clip: float = 0.2):
+    def __init__(self,data: pd.DataFrame, sentiments_column: str, reviews_column: str, OUTPUT_PATH: str):
+        # load configurations
+        self.config = load_yaml_file('params.yaml')['FEATUARIZATION']
         self.data = data
         self.sentiments_column = sentiments_column 
         self.reviews_column = reviews_column 
-        self.min_frequency = min_frequency
-        self.balanced_weight = balanced
-        self.padding = padding
-        self.min_clip = min_clip
-        self.max_clip = max_clip
         self.OUT_PATH = OUTPUT_PATH
+        
+        # counters
         self.positive_sentiment_counter = Counter()
         self.negative_sentiment_counter = Counter()
         self.neutral_sentiment_counter = Counter()
@@ -82,31 +79,9 @@ class build_terms_ratios_by_class:
         weights = self.positive_negative_ratio
         self.clipped_weights = Counter()
         for word, weight in zip(weights.keys(), weights.values()):
-            if weight < self.min_clip or weight > self.max_clip:
+            if weight < self.config['min_clip'] or weight > self.config['max_clip']:
                 self.clipped_weights[word] = weight
    
-    def replace_text(self, text: str) -> list():
-        """ Tokenize text"""
-        
-        tokens = Counter()
-        sentiment_ratios = self.clipped_weights
-        for word in text.split(" "):
-            try:
-                if sentiment_ratios[word] != 0:
-                    tokens[word] = sentiment_ratios[word]
-            except KeyError: # jump word
-                continue
-        
-        # padding
-        tokens = [float(weight) for weight in tokens.values()]
-        if len(tokens) < self.padding:
-            size_tokens = len(tokens)
-            to_append = self.padding - size_tokens
-            tokens = np.append(tokens, np.zeros(to_append))
-        else:
-            tokens = tokens[0:self.padding]
-        return(tokens)
-
     def word_counter(self):
         for _, row  in tqdm(self.data.iterrows()):
             for word in row[self.reviews_column].split(" "):
@@ -117,8 +92,8 @@ class build_terms_ratios_by_class:
                     
     def positive_negative_ratio_calc(self):
         for term,cnt in list(self.total_counter.most_common()):
-            if(cnt > self.min_frequency):
-                ratio = self.positive_sentiment_counter[term]/((float(self.negative_sentiment_counter[term]) + 1)/self.balanced_weight)
+            if(cnt > self.config['min_frequency']):
+                ratio = self.positive_sentiment_counter[term]/((float(self.negative_sentiment_counter[term]) + 1)/self.config['balanced'])
                 self.positive_negative_ratio[term] = float(ratio)
                 
     def ratios2logs(self):
@@ -133,6 +108,8 @@ class build_terms_ratios_by_class:
 
 def main():
     os.makedirs(os.path.join("data", "to_train"), exist_ok=True)
+    os.makedirs(os.path.join("data", "model"), exist_ok=True)
+    
     TRAIN_INPUT = os.path.join(sys.argv[1], "train.csv")
     TEST_INPUT = os.path.join(sys.argv[1], "test.csv")
     VALID_INPUT = os.path.join(sys.argv[1], "valid.csv")

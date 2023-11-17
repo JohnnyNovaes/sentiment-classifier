@@ -1,5 +1,15 @@
+FEATUARIZATION:
+  min_frequency: 5
+  balanced: 0.38
+  min_clip: -0.2
+  max_clip: 0.2
+
+TRAIN:
+  padding: 10
+
 EVALUATION:
   BETA:
     positive: .5
     negative: 2
     neutral: 1
+
