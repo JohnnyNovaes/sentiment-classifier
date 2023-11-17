@@ -5,7 +5,6 @@ stages:
     - data/to_process
     - src/featuarization.py
     outs:
-    - data/to_train
     - data/model
     params:
     - FEATUARIZATION.min_frequency
@@ -17,9 +16,6 @@ stages:
     cmd: python src/train.py data/to_train data/to_validate data/model
     deps:
     - data/to_train
-    - src/train.py
-    outs:
-    - data/to_validate
     params:
     - TRAIN.padding
 
@@ -38,7 +34,7 @@ plots:
 - dvclive/plots/metrics:
     x: step
 - dvclive/plots/sklearn/confusion_matrix.json:
-    template: confusion
+    template: confusion_normalized
     x: actual
     y: predicted
     title: Confusion Matrix
