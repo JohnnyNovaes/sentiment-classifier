@@ -23,8 +23,8 @@ stages:
     deps:
     - path: data/to_validate/
       hash: md5
-      md5: 0ad5ca09293331e5035476654352ca1e.dir
-      size: 1293
+      md5: 9f71356129a8167615d422452dc4c467.dir
+      size: 11295
       nfiles: 1
     - path: src/evaluation.py
       hash: md5
@@ -32,9 +32,9 @@ stages:
       size: 4352
     params:
       params.yaml:
-        EVALUATION.BETA.negative: 1
+        EVALUATION.BETA.negative: 0.5
         EVALUATION.BETA.neutral: 0.5
-        EVALUATION.BETA.positive: 1
+        EVALUATION.BETA.positive: 0.5
   featuarization:
     cmd: python src/featuarization.py data/to_process data/to_train data/model
     deps:
@@ -45,44 +45,44 @@ stages:
       nfiles: 7
     - path: src/featuarization.py
       hash: md5
-      md5: 9060275b651c4f3a1de293b8c5f64e88
-      size: 5670
+      md5: d5a40ecf8e96145f1d6070a3c018eff4
+      size: 5664
     params:
       params.yaml:
         FEATUARIZATION.balanced: 0.38
-        FEATUARIZATION.max_clip: 0.3
-        FEATUARIZATION.min_clip: -0.3
+        FEATUARIZATION.max_clip: 0.4
+        FEATUARIZATION.min_clip: -0.4
         FEATUARIZATION.min_frequency: 5
     outs:
     - path: data/model
       hash: md5
-      md5: 068c1ba4c778100bbe734222a8d31c29.dir
-      size: 105
+      md5: 322f1974eb8fe947066b5ade94f66ab2.dir
+      size: 11979
       nfiles: 1
     - path: data/to_train
       hash: md5
-      md5: 627949f0f9643fc755efa71d4809104a.dir
-      size: 3843
+      md5: b4543d96e32d0ecf8dcc02404a1bff20.dir
+      size: 233025
       nfiles: 3
   train:
     cmd: python src/train.py data/to_train data/to_validate data/model
     deps:
     - path: data/model
       hash: md5
-      md5: def67f1fe6e72f7459e347dd1d008aff.dir
-      size: 6709
+      md5: 261fb7e809c1fe53678ebb0c2c1ae71e.dir
+      size: 480869
       nfiles: 2
     - path: data/to_train/
       hash: md5
-      md5: 627949f0f9643fc755efa71d4809104a.dir
-      size: 3843
+      md5: b4543d96e32d0ecf8dcc02404a1bff20.dir
+      size: 233025
       nfiles: 3
     params:
       params.yaml:
-        TRAIN.padding: 10
+        TRAIN.padding: 20
     outs:
     - path: data/to_validate
       hash: md5
-      md5: 0ad5ca09293331e5035476654352ca1e.dir
-      size: 1293
+      md5: 9f71356129a8167615d422452dc4c467.dir
+      size: 11295
       nfiles: 1

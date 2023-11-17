@@ -13,7 +13,7 @@ tqdm.pandas()
 class CleanCorpus:
     def __init__(self, INPUT_PATH):
         self.nlp = spacy.load('en_core_web_trf')
-        self.data = pd.read_csv(INPUT_PATH)[0:20]
+        self.data = pd.read_csv(INPUT_PATH)
         self.column = 'input'
     
     @staticmethod    
