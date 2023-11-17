@@ -5,6 +5,7 @@ from tqdm import tqdm
 import stanza
 from unidecode import unidecode
 from collections import Counter
+from utils import save_json
 import numpy as np
 import os, sys
 tqdm.pandas()
@@ -74,11 +75,7 @@ class build_terms_ratios_by_class:
         sentiment_counter[word] += 1
         total_counter[word] += 1 
         return(sentiment_counter, total_counter)    
-     
-    def text2weights(self, data: pd.DataFrame) -> pd.DataFrame:
-        data['weights'] = data[self.reviews_column].apply(lambda review: self.replace_text(review))
-        return(data)
-    
+         
     def clip_weights(self):
         """ Clip weights between range min max."""
         
@@ -122,7 +119,7 @@ class build_terms_ratios_by_class:
         for term,cnt in list(self.total_counter.most_common()):
             if(cnt > self.min_frequency):
                 ratio = self.positive_sentiment_counter[term]/((float(self.negative_sentiment_counter[term]) + 1)/self.balanced_weight)
-                self.positive_negative_ratio[term] = ratio
+                self.positive_negative_ratio[term] = float(ratio)
                 
     def ratios2logs(self):
         for word,ratio in self.positive_negative_ratio.most_common():
@@ -133,7 +130,6 @@ class build_terms_ratios_by_class:
         self.positive_negative_ratio_calc()
         self.ratios2logs()
         self.clip_weights()
-        self.text2weights(self.data)
 
 def main():
     os.makedirs(os.path.join("data", "to_train"), exist_ok=True)
@@ -144,30 +140,29 @@ def main():
     TRAIN_OUTPUT = os.path.join(sys.argv[2], "train.csv")
     TEST_OUTPUT = os.path.join(sys.argv[2], "test.csv")
     VALID_OUTPUT = os.path.join(sys.argv[2], "valid.csv")
+    
+    WEIGHTS_PATH = os.path.join(sys.argv[3], "weights.json")
 
     # fit & transform TRAIN
-    cc = CleanCorpus(TRAIN_INPUT)
-    cc.pipeline()
+    cc_train = CleanCorpus(TRAIN_INPUT)
+    cc_train.pipeline()
     
-    build = build_terms_ratios_by_class(cc.data, 'predictions', 'input', TRAIN_OUTPUT)
+    build = build_terms_ratios_by_class(cc_train.data, 'predictions', 'input', TRAIN_OUTPUT)
     build.fit()
+    save_json(dict(build.clipped_weights.most_common()), WEIGHTS_PATH)
     
     # transform TEST
-    cc = CleanCorpus(TEST_INPUT)
-    cc.pipeline()
-    
-    test_data = build.text2weights(cc.data)
+    cc_test = CleanCorpus(TEST_INPUT)
+    cc_test.pipeline()
     
     # transform VALID
-    cc = CleanCorpus(VALID_INPUT)
-    cc.pipeline()
-    
-    valid_data = build.text2weights(cc.data)
-    
+    cc_valid = CleanCorpus(VALID_INPUT)
+    cc_valid.pipeline()
+        
     # save
-    build.data.to_csv(TRAIN_OUTPUT, index=False)
-    test_data.to_csv(TEST_OUTPUT, index=False)
-    valid_data.to_csv(VALID_OUTPUT, index=False)
+    cc_train.data.to_csv(TRAIN_OUTPUT, index=False)
+    cc_test.data.to_csv(TEST_OUTPUT, index=False)
+    cc_valid.data.to_csv(VALID_OUTPUT, index=False)
         
 if __name__ == '__main__':
     main()
