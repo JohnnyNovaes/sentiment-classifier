@@ -2,7 +2,7 @@ stages:
   featuarization:
     cmd: python src/featuarization.py data/to_process data/to_train data/model
     deps:
-    - data/to_process
+    - data/to_process/
     - src/featuarization.py
     outs:
     - data/model
@@ -16,7 +16,8 @@ stages:
   train:
     cmd: python src/train.py data/to_train data/to_validate data/model
     deps:
-    - data/to_train
+    - data/model
+    - data/to_train/
     outs:
     - data/to_validate
     params:
@@ -25,7 +26,7 @@ stages:
   evaluation:
     cmd: python src/evaluation.py data/to_validate
     deps:
-    - data/to_validate
+    - data/to_validate/
     - src/evaluation.py
     params:
     - EVALUATION.BETA.positive

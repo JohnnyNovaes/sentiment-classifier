@@ -21,7 +21,7 @@ stages:
   evaluation:
     cmd: python src/evaluation.py data/to_validate
     deps:
-    - path: data/to_validate
+    - path: data/to_validate/
       hash: md5
       md5: 0ad5ca09293331e5035476654352ca1e.dir
       size: 1293
@@ -38,7 +38,7 @@ stages:
   featuarization:
     cmd: python src/featuarization.py data/to_process data/to_train data/model
     deps:
-    - path: data/to_process
+    - path: data/to_process/
       hash: md5
       md5: f593f8e02dc0a6c13699575c03e516b5.dir
       size: 274031
@@ -67,7 +67,12 @@ stages:
   train:
     cmd: python src/train.py data/to_train data/to_validate data/model
     deps:
-    - path: data/to_train
+    - path: data/model
+      hash: md5
+      md5: def67f1fe6e72f7459e347dd1d008aff.dir
+      size: 6709
+      nfiles: 2
+    - path: data/to_train/
       hash: md5
       md5: 627949f0f9643fc755efa71d4809104a.dir
       size: 3843
